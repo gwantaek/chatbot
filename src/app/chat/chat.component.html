@@ -9,12 +9,6 @@
         <p mat-line *ngIf="message.action === undefined">
           <span> {{message.content}} </span>
         </p>
-        <p mat-line *ngIf="message.action === action.JOINED" class="chat-notification">
-          <span> <b>{{message.from.name}}</b> joined to the conversation. </span>
-        </p>
-        <p mat-line *ngIf="message.action === action.RENAME" class="chat-notification">
-          <span> <b>{{message.content.previousUsername}}</b> is now <b>{{message.content.username}}</b> </span>
-        </p>
       </mat-list-item>
     </mat-list>
     <div class="chat-footer-container">
