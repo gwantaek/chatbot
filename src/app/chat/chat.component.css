@@ -1,3 +1,6 @@
+mat-icon {
+  padding: 10px;
+}
 
 [mat-fab] {
   position: absolute;
@@ -6,24 +9,30 @@
   z-index: 1;
 }
 
-.chat-container {
-  position: fixed;
-  width: 100%;
+.contents-container {
+  position: relative;
+  width: 70%;
   height: 100%;
+  float: right;
+}
+
+.chat-container {
+  position: absolute;
+  width: 30%;
+  min-width: 400px;
+  height: 100%;
+  float: left;
+  overflow-y: auto;
 }
 
 .chat-input {
   padding-top: 20px;
-  width: 80%;
+  width: 85%;
 }
 
 .chat-list {
   overflow: auto;
-  position: fixed;
-  top: 90px;
-  left: 25px;
-  right: 25px;
-  bottom: 120px;
+  position: relative;
 }
 
 .chat-list-item {
@@ -38,10 +47,7 @@
 }
 
 .chat-footer-container {
-  position:fixed;
-  bottom:25px;
-  left:25px;
-  right:25px;
+  position:relative;
 }
 
 .chat-notification {
