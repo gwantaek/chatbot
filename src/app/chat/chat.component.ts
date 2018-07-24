@@ -32,7 +32,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    const accessToken = '6cc610f8989b4d4bb7822bf628482eb7';
+    const accessToken = 'e2ad17b2acf14222b0faace761627008';
     this.apiAiClient = new ApiAiClient({accessToken: accessToken});
 
     this.bot = {
@@ -53,8 +53,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // auto-scroll fix: inspired by this stack overflow post
-  // https://stackoverflow.com/questions/35232731/angular2-scroll-to-bottom-chat-style
   private scrollToBottom(): void {
     try {
       this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
