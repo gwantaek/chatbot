@@ -15,7 +15,7 @@ mat-icon {
 
 .chat-container {
   position: absolute;
-  width: 450px;
+  width: 800px;
   top: 64px;
   bottom: 0px;
   float: left;
@@ -37,6 +37,8 @@ mat-icon {
 
 .chat-list-item {
   margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 5px;
   background-color: #E8EAF6;
 }
@@ -49,6 +51,7 @@ mat-icon {
   position: absolute;
   width: 100%;
   bottom: 10px;
+  text-align: center;
 }
 
 .chat-notification {
@@ -59,7 +62,7 @@ mat-icon {
   position: absolute;
   top: 64px;
   bottom: 0px;
-  left: 450px;
+  left: 800px;
   right: 0px;
   margin: 10px;
 }
@@ -70,4 +73,19 @@ mat-icon {
   height: 100%;
   text-align: center;
   vertical-align: middle;
+}
+
+.contents-slogan {
+  font-size: 30px;
+}
+
+.mat-line {
+  white-space: normal !important;
+}
+
+.mat-list-item {
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: auto !important;
 }

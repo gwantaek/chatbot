@@ -1,50 +1,38 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import { MatDialog, MatList, MatListItem } from '@angular/material';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MatList, MatListItem } from '@angular/material';
 
-import {ApiAiClient} from 'api-ai-javascript/es6/ApiAiClient';
+import { User } from './shared/model/user';
+import { MessageService } from './shared/services/message.service';
 
-import {Message} from './shared/model/message';
-import {Action} from './shared/model/action';
-import {User} from './shared/model/user';
+const DEFAULT_CONTENTS_SRC = 'assets/images/CI.jpg';
+const SLOGAN = '>>디지털로 밝히는 HMG 미래!!<<';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: [
+    './chat.component.css'
+  ]
 })
 export class ChatComponent implements OnInit, AfterViewInit {
 
-  private apiAiClient: ApiAiClient;
-  private isListening = false;
-
-  messages: Message[] = [];
   messageContent: string;
+
+  contentsSrc = DEFAULT_CONTENTS_SRC;
+  contentsReadyMessage = SLOGAN;
 
   private bot: User;
   private user: User;
 
-  // getting a reference to the overall list, which is the parent container of the list items
   @ViewChild(MatList, { read: ElementRef }) matList: ElementRef;
-
-  // getting a reference to the items/messages within the list
   @ViewChildren(MatListItem, { read: ElementRef }) matListItems: QueryList<MatListItem>;
 
-  constructor() { }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
-    const accessToken = 'e2ad17b2acf14222b0faace761627008';
-    this.apiAiClient = new ApiAiClient({accessToken: accessToken});
-
-    this.bot = {
-      id: this.getRandomId(),
-      name: 'Autoever',
-      avatar: 'assets/images/autoever.png'
-    };
-    this.user = {
-      id: this.getRandomId(),
-      name: '튜브',
-      avatar: 'assets/images/tube.png'
-    };
+    // Create Bot & User
+    this.bot = this.getUser('Skynet', 'assets/images/bot.png');
+    this.user = this.getUser('John Connor', 'assets/images/user.png');
   }
 
   ngAfterViewInit(): void {
@@ -53,15 +41,16 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private scrollToBottom(): void {
-    try {
-      this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
-    } catch (err) {
-    }
+  private getUser(name: string, imageUrl: string): User {
+    return {
+      id: Math.round(Math.random() * 100000),
+      name: name,
+      imageUrl: imageUrl
+    };
   }
 
-  private getRandomId(): number {
-    return Math.floor(Math.random() * (1000000)) + 1;
+  private scrollToBottom(): void {
+    this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
   }
 
   sendMessage(message: string): void {
@@ -69,17 +58,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.messages.push({
-      from: this.user,
-      content: message
-    });
-
-    this.apiAiClient.textRequest(this.messageContent).then(response => {
-      console.log(response.result.fulfillment);
-      this.messages.push({
-        from: this.bot,
-        content: response.result.fulfillment.speech
-      });
+    this.messageService.add(message, this.user);
+    this.messageService.query(message).then(response => {
+      this.messageService.add(response.result.fulfillment.speech, this.bot);
     });
 
     this.messageContent = null;

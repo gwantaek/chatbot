@@ -1,8 +1,6 @@
-import {User} from './user';
-import {Action} from './action';
+import { User } from './user';
 
 export class Message {
   from?: User;
   content?: any;
-  action?: Action;
 }

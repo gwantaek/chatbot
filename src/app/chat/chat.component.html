@@ -2,13 +2,13 @@
   <div class="chat-container">
     <mat-card class="main-card">
       <mat-list class="chat-list">
-        <mat-list-item *ngFor="let message of messages" [ngClass]="[(message.action === undefined && message.from.id === user.id)? 'chat-list-item': '']">
-          <img mat-list-avatar *ngIf="message.action === undefined" [src]="message.from.avatar">
-          <h4 mat-line *ngIf="message.action === undefined">
+        <mat-list-item *ngFor="let message of messageService.messages" [ngClass]="[message.from.id === user.id? 'chat-list-item': '']">
+          <img mat-list-avatar [src]="message.from.imageUrl">
+          <h4 mat-line>
             <b>{{message.from.name}}</b>
           </h4>
-          <p mat-line *ngIf="message.action === undefined">
-            <span> {{message.content}} </span>
+          <p mat-line>
+            <span [innerHTML]="message.content | sanitizeHtml"></span>
           </p>
         </mat-list-item>
       </mat-list>
@@ -17,11 +17,11 @@
         <mat-form-field class="chat-input">
           <input matInput
                  #inputMessage
-                 maxlength="140"
+                 maxlength="100"
                  placeholder="Type your message"
                  [(ngModel)]="messageContent"
                  (keyup.enter)="sendMessage(messageContent)">
-          <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
+          <mat-hint align="end">{{inputMessage.value.length}}/100</mat-hint>
         </mat-form-field>
       </div>
     </mat-card>
@@ -29,7 +29,10 @@
 
   <div class="contents-container">
     <div class="contents-ready">
-      <img src="assets/images/CI.jpg" />
+      <img [(src)]="contentsSrc" />
+      <p>
+          <span class="contents-slogan">{{contentsReadyMessage}}</span>
+      </p>
     </div>
   </div>
 
